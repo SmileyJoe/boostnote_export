@@ -107,6 +107,5 @@ ENV/
 *.pyc
 
 #testing
-/json
-/java
+/test
 
