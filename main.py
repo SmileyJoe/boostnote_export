@@ -1,5 +1,3 @@
-from pprint import pprint
-
 import shutil
 
 import sys
@@ -9,22 +7,22 @@ import json
 from boostnote import Boostnote
 
 args = sys.argv
-shouldLog = True
-inputDir = "."
-outputDir = "markdown"
+should_log = True
+input_dir = "."
+output_dir = "markdown"
 
 i = 0
 while i < len(args):
     arg = args[i]
 
     if arg == '-i':
-        inputDir = args[i + 1]
+        input_dir = args[i + 1]
         i += 1
     elif arg == '-o':
-        outputDir = args[i + 1]
+        output_dir = args[i + 1]
         i += 1
     elif arg == '-q':
-        shouldLog = False
+        should_log = False
     elif arg == '--help':
         print('''The following commands are supported:
 
@@ -35,14 +33,14 @@ while i < len(args):
 
     i += 1
 
-print('Deleting {} directory'.format(outputDir))
-shutil.rmtree(outputDir, ignore_errors=True)
-print('Successfully deleted')
+log(should_log, 'Deleting {} directory', output_dir)
+shutil.rmtree(output_dir, ignore_errors=True)
+log(should_log, 'Successfully deleted')
 
-paths = get_files(inputDir, "cson")
+paths = get_files(input_dir, "cson")
 folders = {}
 
-boostnote_config = json.load(open(inputDir + "/boostnote.json"))
+boostnote_config = json.load(open(input_dir + "/boostnote.json"))
 
 for folder in boostnote_config['folders']:
     folders[folder['key']] = folder['name']
@@ -50,6 +48,4 @@ for folder in boostnote_config['folders']:
 for path in paths:
     note = Boostnote(path)
     note.folder_name = folders.get(note.folder_id)
-    note.export(outputDir)
-
-
+    note.export(should_log, output_dir)

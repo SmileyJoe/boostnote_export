@@ -1,4 +1,4 @@
-from pprint import pprint
+from functions import log
 
 import cson
 import os
@@ -54,11 +54,11 @@ class Boostnote:
     def directory_name(self):
         return self._folder_name.replace(" ", "_")
 
-    def export(self, base_directory):
+    def export(self, should_log,  base_directory):
         directory = base_directory + "/" + self.folder_name
         full_path = directory + "/" + self.file_name()
         if not self._content:
-            print('Skipping: No content: {}'.format(full_path))
+            log(should_log, 'Skipping: No content: {}', full_path)
         else:
             if not os.path.exists(directory):
                 os.makedirs(directory)
@@ -66,4 +66,4 @@ class Boostnote:
             file = open(full_path, 'w')
             file.write(self.content)
             file.close()
-            print('Created: {}'.format(full_path))
+            log(should_log, 'Created: {}', full_path)

@@ -20,3 +20,8 @@ def get_files(dir, extension):
                 files.append(child)
 
     return files
+
+
+def log(should_log, message, args=[]):
+    if should_log:
+        print(message.format(args))
