@@ -11,13 +11,14 @@ class Boostnote:
     _content = ""
     _obj_type = ""
     _title = ""
-    _folder = ""
+    _folder_id = ""
+    _folder_name = ""
 
     def __init__(self, cson_file_path):
         data = cson.load(open(cson_file_path))
         self._obj_type = data['type']
         self._title = data['title']
-        self._folder = data['folder']
+        self._folder_id = data['folder']
 
         if self.obj_type == self.TYPE_TEXT_MARKDOWN:
             self._content = data['content']
@@ -35,5 +36,13 @@ class Boostnote:
         return self._title
 
     @property
-    def folder(self):
-        return self._folder
+    def folder_id(self):
+        return self._folder_id
+
+    @property
+    def folder_name(self):
+        return self._folder_name
+
+    @folder_name.setter
+    def folder_name(self, value):
+        self._folder_name = value
