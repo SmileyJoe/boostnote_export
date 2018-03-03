@@ -108,6 +108,7 @@ ENV/
 
 #testing
 /test
+/markdown
 
 #config
 config.py

@@ -1,6 +1,7 @@
 from pprint import pprint
 
 import cson
+import os
 
 
 class Boostnote:
@@ -46,3 +47,23 @@ class Boostnote:
     @folder_name.setter
     def folder_name(self, value):
         self._folder_name = value
+
+    def file_name(self):
+        return self._title.lower().replace(" ", "_") + ".md"
+
+    def directory_name(self):
+        return self._folder_name.replace(" ", "_")
+
+    def export(self, base_directory):
+        directory = base_directory + "/" + self.folder_name
+        full_path = directory + "/" + self.file_name()
+        if not self._content:
+            print('Skipping: No content: {}'.format(full_path))
+        else:
+            if not os.path.exists(directory):
+                os.makedirs(directory)
+
+            file = open(full_path, 'w')
+            file.write(self.content)
+            file.close()
+            print('Created: {}'.format(full_path))
