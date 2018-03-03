@@ -7,10 +7,15 @@ in an `export` directory so that they can be viewed in github.
 
 # Setup #
 
-Install the cson package
+Install the required package
 
 - `pip install cson`
 
-Create a `config.py` file in the root directory of the project and add the following config variables:
+# Usage #
 
-- `BOOSTNOTE_DIR` - the directory where you notes are stored
+The script can be called with the following parameters:
+
+- `--help` - prints out the help section for the script
+- `-i` - specifies that the next parameter will be the input directory
+- `-o` - specifies that the next parameter will be the output directory
+- `-q` - turns off the logging
