@@ -23,6 +23,18 @@ class Boostnote:
 
         if self.obj_type == self.TYPE_TEXT_MARKDOWN:
             self._content = data['content']
+        else:
+            self._content = self.build_snippet_content(data)
+
+    def build_snippet_content(self, data):
+        format_content = "\n\n {} \n\n {}"
+        format_snippet = "{} \n\n ```{} \n {} \n``` \n\n"
+        snippet = ""
+
+        for temp in data['snippets']:
+            snippet += format_snippet.format(temp['name'], temp['mode'], temp['content'])
+
+        return format_content.format(data['description'], snippet)
 
     @property
     def obj_type(self):
@@ -59,6 +71,8 @@ class Boostnote:
         full_path = directory + "/" + self.file_name()
         if not self._content:
             log(should_log, 'Skipping: No content: {}', full_path)
+        elif not self._title:
+            log(should_log, 'Skipping: No title: {}', full_path)
         else:
             if not os.path.exists(directory):
                 os.makedirs(directory)
