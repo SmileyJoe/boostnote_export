@@ -14,12 +14,14 @@ class Boostnote:
     _title = ""
     _folder_id = ""
     _folder_name = ""
+    _is_trashed = False
 
     def __init__(self, cson_file_path):
         data = cson.load(open(cson_file_path))
         self._obj_type = data['type']
         self._title = data['title']
         self._folder_id = data['folder']
+        self._is_trashed = data['isTrashed']
 
         if self.obj_type == self.TYPE_TEXT_MARKDOWN:
             self._content = data['content']
@@ -69,7 +71,9 @@ class Boostnote:
     def export(self, should_log,  base_directory):
         directory = base_directory + "/" + self.folder_name
         full_path = directory + "/" + self.file_name()
-        if not self._content:
+        if self._is_trashed:
+            log(should_log, 'Skipping: In trash: {}', full_path)
+        elif not self._content:
             log(should_log, 'Skipping: No content: {}', full_path)
         elif not self._title:
             log(should_log, 'Skipping: No title: {}', full_path)
